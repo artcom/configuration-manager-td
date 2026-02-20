@@ -50,3 +50,5 @@ class ConfigurationController:
                             f.write(chunk)
         except requests.Timeout as e:
             self._logger.error(e)
+        except Exception as e:
+            self._logger.error(e)
