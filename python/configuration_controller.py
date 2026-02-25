@@ -19,6 +19,8 @@ class ConfigurationController:
 
     def DownloadConfiguration(self):
         self._logger.info("downloading configuration")
+        self._owner_comp.DoCallback('onUpdateStart')
+
         config = self._owner_comp.op('config').result
         bootstrap_config = config['bootstrapConfig']
         bootstrap_config_file = config['bootstrapConfigFile']
@@ -35,6 +37,7 @@ class ConfigurationController:
 
         self._logger.info("download complete")
         self._refresh_configuration()
+        self._owner_comp.DoCallback('onUpdateFinished')
 
     def _refresh_configuration(self):
         self._owner_comp.op('bootstrap_config_json').par.refresh.pulse()
@@ -50,5 +53,9 @@ class ConfigurationController:
                             f.write(chunk)
         except requests.Timeout as e:
             self._logger.error(e)
+            info = {'error': e}
+            self._owner_comp.DoCallback('onUpdateFailure', info)
         except Exception as e:
             self._logger.error(e)
+            info = {'error': e}
+            self._owner_comp.DoCallback('onUpdateFailure', info)

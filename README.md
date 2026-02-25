@@ -33,3 +33,11 @@ To download configurations use method call:
 ```py
 op.ConfigurationManager.DownloadConfiguration()
 ```
+
+Callbacks will inform over status:
+
+| Callback           | Description                        |
+| :----------------- | :--------------------------------- |
+| `onUpdateStart`    | Download of configuration started  |
+| `onUpdateFinished` | Download of configuration finished |
+| `onUpdateFailure`  | Download of configuration failed   |
