@@ -4,7 +4,7 @@ TD Component to download configuration files from ACMS.
 
 ## Requirements
 
-- Touchdesigner  >= 2023.12370
+- Touchdesigner  >= 2025
 - Python 3.11
 
 ## Installation
