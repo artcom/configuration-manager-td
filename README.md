@@ -1,6 +1,6 @@
 # TouchDesigner Configuration Manager Component
 
-Component to download configuration files from ACMS.
+TD Component to download configuration files from ACMS.
 
 ## Requirements
 
@@ -9,17 +9,17 @@ Component to download configuration files from ACMS.
 
 ## Installation
 
-Copy this directory into the "external" folder on the base directory of your project:
+Add this dependency to your `requirements.txt`:
 
 ```sh
-./external/configuration-manager
+configuration-manager-td @ git+https://github.com/artcom/configuration-manager-td.git@0.1.0#egg=configuration-manager-td
 ```
 
 Load the tox into your project:
 
-1. drag into your project
-2. Common -> Enable External .tox = ON
-3. Common -> External .tox Path = set to tox file
+1. create a baseCOMP
+2. Common -> External .tox Path = `mod.configuration_manager_td.ToxFile`
+3. Common -> Enable External .tox = ON
 4. Common -> Reload custom parameters = OFF
 
 ## Usage
