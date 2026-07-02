@@ -32,18 +32,27 @@ class ConfigurationController:
             app_config_file
         )
 
-        self._download_file(bootstrap_config, bootstrap_config_file)
-        self._download_file(app_config, app_config_file)
+        err_boostrap = self._download_file(
+            bootstrap_config, bootstrap_config_file)
+        if err_boostrap:
+            info = {'error': err_boostrap}
+            self._owner_comp.DoCallback('onUpdateFailure', info)
 
-        self._logger.info("download complete")
-        self._refresh_configuration()
-        self._owner_comp.DoCallback('onUpdateFinished')
+        err_app = self._download_file(app_config, app_config_file)
+        if err_app:
+            info = {'error': err_app}
+            self._owner_comp.DoCallback('onUpdateFailure', info)
+
+        if err_boostrap is None and err_app is None:
+            self._logger.info("download complete")
+            self._refresh_configuration()
+            self._owner_comp.DoCallback('onUpdateFinished')
 
     def _refresh_configuration(self):
         self._owner_comp.op('bootstrap_config_json').par.refresh.pulse()
         self._owner_comp.op('app_config_json').par.refresh.pulse()
 
-    def _download_file(self, url: str, filepath: str) -> dict:
+    def _download_file(self, url: str, filepath: str) -> bool:
         try:
             with requests.get(url, stream=True, timeout=10) as r:
                 r.raise_for_status()
@@ -51,11 +60,10 @@ class ConfigurationController:
                     for chunk in r.iter_content(chunk_size=8192):
                         if chunk:
                             f.write(chunk)
+            return None
         except requests.Timeout as e:
             self._logger.error(e)
-            info = {'error': e}
-            self._owner_comp.DoCallback('onUpdateFailure', info)
+            return e
         except Exception as e:
             self._logger.error(e)
-            info = {'error': e}
-            self._owner_comp.DoCallback('onUpdateFailure', info)
+            return e
