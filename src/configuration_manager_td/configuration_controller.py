@@ -26,6 +26,8 @@ class ConfigurationController:
         bootstrap_config_file = config['bootstrapConfigFile']
         app_config = config['appConfig']
         app_config_file = config['appConfigFile']
+        username = config['username']
+        password = config['password']
 
         self._create_download_directories(
             bootstrap_config_file,
@@ -33,12 +35,13 @@ class ConfigurationController:
         )
 
         err_boostrap = self._download_file(
-            bootstrap_config, bootstrap_config_file)
+            bootstrap_config, bootstrap_config_file, username, password)
         if err_boostrap:
             info = {'error': err_boostrap}
             self._owner_comp.DoCallback('onUpdateFailure', info)
 
-        err_app = self._download_file(app_config, app_config_file)
+        err_app = self._download_file(
+            app_config, app_config_file, username, password)
         if err_app:
             info = {'error': err_app}
             self._owner_comp.DoCallback('onUpdateFailure', info)
@@ -52,9 +55,9 @@ class ConfigurationController:
         self._owner_comp.op('bootstrap_config_json').par.refresh.pulse()
         self._owner_comp.op('app_config_json').par.refresh.pulse()
 
-    def _download_file(self, url: str, filepath: str) -> bool:
+    def _download_file(self, url: str, filepath: str, username: str, password: str) -> bool:
         try:
-            with requests.get(url, stream=True, timeout=10) as r:
+            with requests.get(url, stream=True, timeout=10, auth=(username, password)) as r:
                 r.raise_for_status()
                 with open(filepath, "wb") as f:
                     for chunk in r.iter_content(chunk_size=8192):
