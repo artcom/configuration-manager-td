@@ -26,8 +26,8 @@ class ConfigurationController:
         bootstrap_config_file = config['bootstrapConfigFile']
         app_config = config['appConfig']
         app_config_file = config['appConfigFile']
-        username = config['username']
-        password = config['password']
+        username = config['basicAuth']['username']
+        password = config['basicAuth']['password']
 
         self._create_download_directories(
             bootstrap_config_file,
