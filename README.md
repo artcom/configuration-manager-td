@@ -29,6 +29,8 @@ Parameters on page "Input":
 | Parameter    | Description                     |
 | :----------- | :------------------------------ |
 | `ConfigPath` | Path th the local `config.json` |
+| `Username`   | The username for the ACMS       |
+| `Password`   | The password for the ACMS       |
 | `Download`   | Manual trigger for download     |
 
 To download configurations use method call:
