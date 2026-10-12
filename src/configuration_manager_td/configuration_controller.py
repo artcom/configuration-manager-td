@@ -51,6 +51,12 @@ class ConfigurationController:
             self._logger.info("download complete")
             self._refresh_configuration()
             self._owner_comp.DoCallback('onUpdateFinished')
+        else:
+            if Path(bootstrap_config_file).exists() and Path(app_config_file).exists():
+                self._logger.info(
+                    "download incomplete. will use cached files.")
+                self._refresh_configuration()
+                self._owner_comp.DoCallback('onUpdateFinished')
 
     def _refresh_configuration(self):
         self._owner_comp.op('bootstrap_config_json').par.refresh.pulse()

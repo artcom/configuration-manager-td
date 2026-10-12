@@ -1,0 +1,12 @@
+README.md
+pyproject.toml
+src/configuration_manager_td/__init__.py
+src/configuration_manager_td/callbacks.py
+src/configuration_manager_td/configuration_controller.py
+src/configuration_manager_td/configuration_manager.tox
+src/configuration_manager_td/download_trigger.py
+src/configuration_manager_td.egg-info/PKG-INFO
+src/configuration_manager_td.egg-info/SOURCES.txt
+src/configuration_manager_td.egg-info/dependency_links.txt
+src/configuration_manager_td.egg-info/requires.txt
+src/configuration_manager_td.egg-info/top_level.txt
