@@ -38,12 +38,14 @@ class ConfigurationController:
         err_boostrap = self._download_file(
             bootstrap_config, bootstrap_config_file, username, password)
         if err_boostrap:
+            self._logger.error(err_boostrap)
             info = {'error': err_boostrap}
             self._owner_comp.DoCallback('onUpdateFailure', info)
 
         err_app = self._download_file(
             app_config, app_config_file, username, password)
         if err_app:
+            self._logger.error(err_app)
             info = {'error': err_app}
             self._owner_comp.DoCallback('onUpdateFailure', info)
 
